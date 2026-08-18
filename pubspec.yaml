@@ -1,8 +1,15 @@
 name: shadart
 description: A clean, accessible, shadcn-inspired component library for Flutter.
-homepage: https://github.com/your-username/shadart
-repository: https://github.com/your-username/shadart
+homepage: https://github.com/jsondev-v2/shadart
+repository: https://github.com/jsondev-v2/shadart
+issue_tracker: https://github.com/jsondev-v2/shadart/issues
 version: 0.1.0+1
+
+topics:
+  - ui
+  - widgets
+  - design-system
+  - shadcn
 
 environment:
   sdk: ^3.12.2

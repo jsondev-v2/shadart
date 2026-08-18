@@ -6,13 +6,14 @@ widgets that still feel native to Flutter.
 
 ## Install
 
-Until the package is published, reference the GitHub repository:
+Install directly from the public GitHub repository:
 
 ```yaml
 dependencies:
   shadart:
     git:
-      url: https://github.com/your-username/shadart.git
+      url: https://github.com/jsondev-v2/shadart.git
+      ref: main
 ```
 
 ## Use
@@ -50,15 +51,30 @@ MaterialApp(
 
 Run `flutter run -d chrome` to browse the included responsive component gallery.
 
-## Publishing
+Then run `flutter pub get` and import `package:shadart/shadart.dart`.
 
-Replace the placeholder GitHub URLs in `pubspec.yaml` and this README, then run:
+## Versioned installation
+
+For production projects, use a release tag instead of `main`:
+
+```yaml
+dependencies:
+  shadart:
+    git:
+      url: https://github.com/jsondev-v2/shadart.git
+      ref: v0.1.0
+```
+
+## Publishing to pub.dev
 
 ```shell
 flutter analyze
 flutter test
 dart pub publish --dry-run
+dart pub publish
 ```
+
+After publication, projects can install it with `flutter pub add shadart`.
 
 Shadart is not affiliated with shadcn. The design language is inspired by the
 same principles: neutral surfaces, clear hierarchy, and copy-friendly APIs.
