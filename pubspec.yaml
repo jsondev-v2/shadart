@@ -1,0 +1,20 @@
+name: shadart
+description: A clean, accessible, shadcn-inspired component library for Flutter.
+homepage: https://github.com/your-username/shadart
+repository: https://github.com/your-username/shadart
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
