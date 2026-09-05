@@ -3,7 +3,7 @@ description: A clean, accessible, shadcn-inspired component library for Flutter.
 homepage: https://github.com/jsondev-v2/shadart
 repository: https://github.com/jsondev-v2/shadart
 issue_tracker: https://github.com/jsondev-v2/shadart/issues
-version: 0.1.0+1
+version: 0.1.1
 
 topics:
   - ui

@@ -15,8 +15,8 @@ class _ShadartGalleryState extends State<ShadartGallery> {
   Widget build(BuildContext context) => MaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'Shadart',
-    theme: ShadTheme.light(),
-    darkTheme: ShadTheme.dark(),
+    theme: ShadTheme.light(colorScheme: AppColorScheme.neutral),
+    darkTheme: ShadTheme.dark(colorScheme: AppColorScheme.neutral),
     themeMode: mode,
     home: GalleryPage(
       onThemeChanged: () => setState(
@@ -26,9 +26,23 @@ class _ShadartGalleryState extends State<ShadartGallery> {
   );
 }
 
-class GalleryPage extends StatelessWidget {
+class GalleryPage extends StatefulWidget {
   const GalleryPage({super.key, required this.onThemeChanged});
   final VoidCallback onThemeChanged;
+
+  @override
+  State<GalleryPage> createState() => _GalleryPageState();
+}
+
+class _GalleryPageState extends State<GalleryPage> {
+  bool checked = true;
+  bool switched = true;
+  int radioValue = 1;
+  double sliderValue = .65;
+  String? dropdownValue = 'Flutter';
+  DateTime? selectedDate;
+  TimeOfDay? selectedTime;
+
   @override
   Widget build(BuildContext context) {
     final c = context.shadColors;
@@ -77,7 +91,7 @@ class GalleryPage extends StatelessWidget {
                           ShadButton(
                             variant: ShadButtonVariant.ghost,
                             size: ShadButtonSize.icon,
-                            onPressed: onThemeChanged,
+                            onPressed: widget.onThemeChanged,
                             child: const Icon(Icons.contrast, size: 18),
                           ),
                           const SizedBox(width: 8),
@@ -119,7 +133,7 @@ class GalleryPage extends StatelessWidget {
                       LayoutBuilder(
                         builder: (context, box) {
                           final cards = [_buttons(), _form(), _feedback()];
-                          if (box.maxWidth < 760)
+                          if (box.maxWidth < 760) {
                             return Column(
                               children: cards
                                   .map(
@@ -132,6 +146,7 @@ class GalleryPage extends StatelessWidget {
                                   )
                                   .toList(),
                             );
+                          }
                           return Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -144,6 +159,8 @@ class GalleryPage extends StatelessWidget {
                           );
                         },
                       ),
+                      const SizedBox(height: 48),
+                      _componentsSection(),
                       const SizedBox(height: 36),
                       const ShadSeparator(),
                       const SizedBox(height: 20),
@@ -173,6 +190,325 @@ class GalleryPage extends StatelessWidget {
       ),
     );
   }
+
+  Widget _componentsSection() => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Text(
+        'Components',
+        style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
+      ),
+      const SizedBox(height: 8),
+      Text(
+        'Every building block, rendered in one place.',
+        style: TextStyle(
+          color: context.shadColors.mutedForeground,
+          fontSize: 15,
+        ),
+      ),
+      const SizedBox(height: 24),
+      LayoutBuilder(
+        builder: (context, box) {
+          final sections = [
+            _contentComponents(),
+            _formComponents(),
+            _actionComponents(),
+            _navigationComponents(),
+            _feedbackComponents(),
+          ];
+          if (box.maxWidth < 760) {
+            return Column(
+              children: sections
+                  .map(
+                    (section) => Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: section,
+                    ),
+                  )
+                  .toList(),
+            );
+          }
+          return Wrap(
+            spacing: 20,
+            runSpacing: 20,
+            children: sections
+                .map(
+                  (section) =>
+                      SizedBox(width: (box.maxWidth - 20) / 2, child: section),
+                )
+                .toList(),
+          );
+        },
+      ),
+    ],
+  );
+
+  Widget _contentComponents() => ShadCard(
+    title: const Text('Content'),
+    description: const Text('Text, icons, imagery, cards, lists, and grids.'),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const ShadText('Display text with a semantic component.'),
+        const SizedBox(height: 12),
+        const Row(
+          children: [
+            ShadIcon(Icons.auto_awesome, size: 20),
+            SizedBox(width: 12),
+            ShadIcon(Icons.favorite_outline, size: 20),
+            SizedBox(width: 12),
+            ShadTooltip(
+              message: 'More information',
+              child: ShadIcon(Icons.info_outline, size: 20),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          child: ShadImage(
+            url:
+                'https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=900',
+            height: 120,
+            width: double.infinity,
+          ),
+        ),
+        const SizedBox(height: 12),
+        const ShadListItem(
+          leading: CircleAvatar(child: Text('S')),
+          title: Text('List item'),
+          subtitle: Text('A compact row with supporting text.'),
+          trailing: ShadIcon(Icons.chevron_right),
+        ),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 116,
+          child: ShadGrid(
+            itemCount: 4,
+            itemBuilder: (context, index) => ShadCard(
+              padding: const EdgeInsets.all(12),
+              child: Center(child: Text('Tile ${index + 1}')),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+
+  Widget _formComponents() => ShadCard(
+    title: const Text('Forms'),
+    description: const Text('Inputs and controls for collecting values.'),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const ShadTextField(label: 'Text field', hintText: 'Enter a value'),
+        const SizedBox(height: 12),
+        const ShadPasswordField(
+          label: 'Password',
+          hintText: 'Enter a password',
+        ),
+        const SizedBox(height: 12),
+        const ShadTextArea(label: 'Text area', hintText: 'Write a note'),
+        const SizedBox(height: 12),
+        ShadDropdown<String>(
+          value: dropdownValue,
+          items: const [
+            DropdownMenuItem(value: 'Flutter', child: Text('Flutter')),
+            DropdownMenuItem(value: 'Dart', child: Text('Dart')),
+            DropdownMenuItem(value: 'Web', child: Text('Web')),
+          ],
+          onChanged: (value) => setState(() => dropdownValue = value),
+          hint: const Text('Choose a framework'),
+        ),
+        ShadCheckbox(
+          value: checked,
+          onChanged: (value) => setState(() => checked = value ?? false),
+          label: const Text('Remember this choice'),
+        ),
+        ShadRadio<int>(
+          value: 1,
+          groupValue: radioValue,
+          onChanged: (value) => setState(() => radioValue = value ?? 1),
+          label: const Text('Standard option'),
+        ),
+        ShadSwitch(
+          value: switched,
+          onChanged: (value) => setState(() => switched = value),
+          label: const Text('Enable notifications'),
+        ),
+        ShadSlider(
+          value: sliderValue,
+          divisions: 10,
+          label: '${(sliderValue * 100).round()}%',
+          onChanged: (value) => setState(() => sliderValue = value),
+        ),
+      ],
+    ),
+  );
+
+  Widget _actionComponents() => ShadCard(
+    title: const Text('Actions'),
+    description: const Text('Buttons, chips, progress, and loading states.'),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            ShadTextButton(onPressed: () {}, child: const Text('Text button')),
+            ShadOutlineButton(onPressed: () {}, child: const Text('Outline')),
+            ShadIconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.more_horiz),
+              tooltip: 'More actions',
+            ),
+            ShadFloatingButton(
+              onPressed: () {},
+              tooltip: 'Add item',
+              child: const Icon(Icons.add),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        const Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            ShadChip(label: Text('Design')),
+            ShadChip(label: Text('Flutter'), onDeleted: null),
+            ShadChip(
+              label: Text('Selected'),
+              selected: true,
+              onSelected: _noop,
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        const ShadProgress(value: .7),
+        const SizedBox(height: 16),
+        const Row(
+          children: [
+            ShadLoading(),
+            SizedBox(width: 12),
+            Text('Loading your workspace...'),
+          ],
+        ),
+      ],
+    ),
+  );
+
+  Widget _navigationComponents() => ShadCard(
+    title: const Text('Navigation'),
+    description: const Text('Headers, tabs, lists, and bottom navigation.'),
+    padding: EdgeInsets.zero,
+    child: Column(
+      children: [
+        const ShadAppBar(
+          title: Text('Workspace'),
+          leading: ShadIcon(Icons.menu),
+          actions: [
+            ShadIconButton(onPressed: _noop, icon: ShadIcon(Icons.search)),
+          ],
+        ),
+        const Padding(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            children: [
+              DefaultTabController(
+                length: 2,
+                child: Column(
+                  children: [
+                    ShadTabs(
+                      tabs: [
+                        Tab(text: 'Overview'),
+                        Tab(text: 'Activity'),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 16),
+              ShadListItem(
+                title: Text('Recent activity'),
+                trailing: ShadIcon(Icons.chevron_right),
+              ),
+            ],
+          ),
+        ),
+        ShadBottomNavigation(
+          selectedIndex: 0,
+          destinations: [
+            NavigationDestination(
+              icon: Icon(Icons.home_outlined),
+              label: 'Home',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.person_outline),
+              label: 'Profile',
+            ),
+          ],
+          onDestinationSelected: _noop,
+        ),
+      ],
+    ),
+  );
+
+  Widget _feedbackComponents() => ShadCard(
+    title: const Text('Feedback & overlays'),
+    description: const Text(
+      'Pickers, dividers, dialogs, and temporary messages.',
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            ShadDatePicker(
+              value: selectedDate,
+              onChanged: (value) => setState(() => selectedDate = value),
+            ),
+            ShadTimePicker(
+              value: selectedTime,
+              onChanged: (value) => setState(() => selectedTime = value),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        const ShadDivider(),
+        const SizedBox(height: 16),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            ShadButton(
+              onPressed: () => ShadDialog.show(
+                context: context,
+                title: const Text('Confirm action'),
+                content: const Text('This dialog is provided by ShadDialog.'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Close'),
+                  ),
+                ],
+              ),
+              child: const Text('Open dialog'),
+            ),
+            ShadButton(
+              variant: ShadButtonVariant.outline,
+              onPressed: () => ShadSnackbar.show(context, 'Changes saved'),
+              child: const Text('Show snackbar'),
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+
+  static void _noop([dynamic _]) {}
 
   Widget _buttons() => ShadCard(
     title: const Text('Buttons'),

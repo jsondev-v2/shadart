@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1
+
+- Added exports and components for common Flutter controls, navigation, pickers, lists, dialogs, and feedback widgets.
+
 ## 0.1.0
 
 - Added semantic light and dark themes.

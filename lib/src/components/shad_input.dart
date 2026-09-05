@@ -31,9 +31,10 @@ class ShadInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.shadColors;
+    final style = context.shadStyle;
     final border = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(8),
-      borderSide: BorderSide(color: c.border),
+      borderRadius: BorderRadius.circular(style.radius),
+      borderSide: BorderSide(color: c.border, width: style.borderWidth),
     );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,11 +44,11 @@ class ShadInput extends StatelessWidget {
             label!,
             style: TextStyle(
               color: c.foreground,
-              fontSize: 14,
+              fontSize: style.fontSize,
               fontWeight: FontWeight.w500,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: style.spacing / 2),
         ],
         TextField(
           controller: controller,
@@ -55,7 +56,11 @@ class ShadInput extends StatelessWidget {
           enabled: enabled,
           onChanged: onChanged,
           keyboardType: keyboardType,
-          style: TextStyle(color: c.foreground, fontSize: 14),
+          style: TextStyle(
+            color: c.foreground,
+            fontSize: style.fontSize,
+            letterSpacing: style.letterSpacing,
+          ),
           decoration: InputDecoration(
             hintText: hintText,
             prefixIcon: prefix,
@@ -63,11 +68,14 @@ class ShadInput extends StatelessWidget {
             isDense: true,
             filled: true,
             fillColor: c.background,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 13,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: style.spacing,
+              vertical: (style.controlHeight - 20) / 2,
             ),
-            hintStyle: TextStyle(color: c.mutedForeground),
+            hintStyle: TextStyle(
+              color: c.mutedForeground,
+              fontSize: style.fontSize,
+            ),
             border: border,
             enabledBorder: border,
             focusedBorder: border.copyWith(
