@@ -14,6 +14,7 @@ class ShadDropdown<T> extends StatelessWidget {
   final Widget? hint;
   @override
   Widget build(BuildContext context) => DropdownButtonFormField<T>(
+    isExpanded: true,
     initialValue: value,
     items: items,
     onChanged: onChanged,

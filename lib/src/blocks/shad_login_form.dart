@@ -92,17 +92,18 @@ class _ShadLoginFormState extends State<ShadLoginForm> {
           ),
           if (widget.showRememberMe) ...[
             SizedBox(height: style.spacing),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 12,
+              runSpacing: 8,
               children: [
-                Expanded(
-                  child: ShadCheckbox(
-                    value: _rememberMe,
-                    onChanged: (value) {
-                      setState(() => _rememberMe = value ?? false);
-                    },
-                    label: const ShadText('Remember me'),
-                  ),
+                ShadCheckbox(
+                  value: _rememberMe,
+                  onChanged: (value) {
+                    setState(() => _rememberMe = value ?? false);
+                  },
+                  label: const ShadText('Remember me'),
                 ),
                 if (widget.onForgotPassword != null)
                   ShadTextButton(
@@ -120,11 +121,12 @@ class _ShadLoginFormState extends State<ShadLoginForm> {
           ),
           if (widget.showCreateAccount || widget.onCreateAccount != null) ...[
             SizedBox(height: style.spacing),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Wrap(
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 4,
               children: [
                 ShadText('Need an account?'),
-                const SizedBox(width: 4),
                 ShadTextButton(
                   onPressed: widget.onCreateAccount,
                   variant: ShadButtonVariant.link,

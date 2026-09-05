@@ -15,11 +15,14 @@ class ShadListItem extends StatelessWidget {
   final Widget? trailing;
   final VoidCallback? onTap;
   @override
-  Widget build(BuildContext context) => ListTile(
-    leading: leading,
-    title: title,
-    subtitle: subtitle,
-    trailing: trailing,
-    onTap: onTap,
+  Widget build(BuildContext context) => Material(
+    type: MaterialType.transparency,
+    child: ListTile(
+      leading: leading,
+      title: title,
+      subtitle: subtitle,
+      trailing: trailing,
+      onTap: onTap,
+    ),
   );
 }

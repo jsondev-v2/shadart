@@ -78,3 +78,14 @@ After publication, projects can install it with `flutter pub add shadart`.
 
 Shadart is not affiliated with shadcn. The design language is inspired by the
 same principles: neutral surfaces, clear hierarchy, and copy-friendly APIs.
+
+## Gallery structure
+
+The demo app starts at `lib/main.dart` and is organized separately from the public UI kit:
+
+- `lib/gallery/gallery_app.dart`: app themes and theme switching.
+- `lib/gallery/screens/`: landing, components, and blocks screens with shared navigation.
+- `lib/gallery/components/`: reusable gallery layout and individual interactive demos.
+- `lib/gallery/blocks/`: landing hero and composed block previews.
+
+The Home page links to Components and Blocks. Switching pages preserves demo input and scroll position. The public components and blocks remain in `lib/src/` and are exported through `lib/shadart.dart`.
